@@ -1,11 +1,12 @@
 namespace SharpLox
 {
-    public static class SharpLoxMain {
+    public static class SharpLoxMain
+    {
         static bool HadError = false;
 
         public static void Main(string[] args)
         {
-            if (args.Length > 1) 
+            if (args.Length > 1)
             {
                 Console.WriteLine("Usage: sharplox [script]");
             }

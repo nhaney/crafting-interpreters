@@ -1,4 +1,5 @@
-namespace SharpLox {
+namespace SharpLox
+{
     internal class Token
     {
         readonly TokenType Type;

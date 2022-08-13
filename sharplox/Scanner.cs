@@ -1,7 +1,7 @@
 namespace SharpLox
 {
     using static TokenType;
-    internal class Scanner 
+    internal class Scanner
     {
         private readonly string Source;
         private readonly List<Token> Tokens = new List<Token>();
@@ -33,7 +33,7 @@ namespace SharpLox
             this.Source = source;
         }
 
-        internal List<Token> ScanTokens() 
+        internal List<Token> ScanTokens()
         {
             while (!IsAtEnd())
             {
@@ -68,10 +68,10 @@ namespace SharpLox
                     AddToken(Match('=') ? EqualEqual : Equal);
                     break;
                 case '<':
-                    AddToken(Match('=') ? LessEqual: Less);
+                    AddToken(Match('=') ? LessEqual : Less);
                     break;
                 case '>':
-                    AddToken(Match('=') ? GreaterEqual: Greater);
+                    AddToken(Match('=') ? GreaterEqual : Greater);
                     break;
                 case '/':
                     if (Match('/'))

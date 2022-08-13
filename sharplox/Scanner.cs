@@ -81,6 +81,10 @@ namespace SharpLox
                             Advance();
                         }
                     }
+                    else if (Match('*'))
+                    {
+                        HandleBlockComment();
+                    }
                     else
                     {
                         AddToken(Slash);
@@ -230,7 +234,7 @@ namespace SharpLox
 
             if (IsAtEnd())
             {
-                SharpLoxMain.Error(Line, "Unterminated String");
+                SharpLoxMain.Error(Line, "Unterminated string");
                 return;
             }
 
@@ -256,6 +260,44 @@ namespace SharpLox
                 type = Identifier;
             }
             AddToken(type);
+        }
+
+        private void HandleBlockComment()
+        {
+            var nestedComments = 1;
+
+            while (nestedComments > 0)
+            {
+                if (IsAtEnd())
+                {
+
+                    SharpLoxMain.Error(Line, "Unterminated block comment");
+                    return;
+                }
+
+                var c = Advance();
+
+                switch(c)
+                {
+                    case '\n':
+                        Line += 1;
+                        break;
+                    case '/':
+                        if (Match('*'))
+                        {
+                            nestedComments++;
+                        }
+                        break;
+                    case '*':
+                        if (Match('/'))
+                        {
+                            nestedComments--;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

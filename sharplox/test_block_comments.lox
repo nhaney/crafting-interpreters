@@ -1,0 +1,26 @@
+// regular comment
+
+/* block comment on one line */
+
+print "some actual tokens here"
+
+/*
+    /*
+    Nested block comment
+    */
+    print "some commented out tokens here"
+    /*
+        /*
+            print "triple nested!!??!!"
+        */
+    */
+*/
+
+print "now we will not terminate the block comment"
+
+/*
+unterminated... should be fine, I think???
+
+/*
+test test
+*/

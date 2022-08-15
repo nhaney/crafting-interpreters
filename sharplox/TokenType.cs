@@ -26,9 +26,9 @@ namespace SharpLox
         LessEqual,
 
         // Literals
-        Identifier,
-        String,
-        Number,
+        LoxIdentifier,
+        LoxString,
+        LoxNumber,
 
         // Keywords
         And,
@@ -47,7 +47,6 @@ namespace SharpLox
         True,
         Var,
         While,
-
         EOF,
     }
 }

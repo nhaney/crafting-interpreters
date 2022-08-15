@@ -1,15 +1,17 @@
+using static SharpLox.TokenType;
+
 namespace SharpLox
 {
-    using static TokenType;
     internal class Scanner
     {
-        private readonly string Source;
-        private readonly List<Token> Tokens = new List<Token>();
-        private int Start = 0;
-        private int Current = 0;
-        private int Line = 1;
+        private readonly string _source;
+        private readonly List<Token> _tokens = new();
+        private int _start;
+        private int _current;
+        private int _line = 1;
 
-        private static readonly Dictionary<string, TokenType> Keywords = new Dictionary<string, TokenType> {
+        private static readonly Dictionary<string, TokenType> Keywords = new()
+        {
             {"and", And},
             {"class", Class},
             {"else", Else},
@@ -30,19 +32,19 @@ namespace SharpLox
 
         internal Scanner(string source)
         {
-            this.Source = source;
+            _source = source;
         }
 
         internal List<Token> ScanTokens()
         {
             while (!IsAtEnd())
             {
-                Start = Current;
+                _start = _current;
                 ScanToken();
             }
 
-            Tokens.Add(new Token(TokenType.EOF, "", null, Line));
-            return Tokens;
+            _tokens.Add(new Token(EOF, "", null, _line));
+            return _tokens;
         }
 
         private void ScanToken()
@@ -78,7 +80,7 @@ namespace SharpLox
                     {
                         while (Peek() != '\n' && !IsAtEnd())
                         {
-                            Advance();
+                            _ = Advance();
                         }
                     }
                     else
@@ -91,7 +93,7 @@ namespace SharpLox
                 case '\t':
                     break;
                 case '\n':
-                    Line++;
+                    _line++;
                     break;
                 case '"':
                     HandleString();
@@ -113,7 +115,7 @@ namespace SharpLox
                     }
                     else
                     {
-                        SharpLoxMain.Error(Line, $"Unexpected character {c}");
+                        SharpLoxMain.Error(_line, $"Unexpected character {c}");
                     }
                     break;
             }
@@ -121,12 +123,12 @@ namespace SharpLox
 
         private bool IsAtEnd()
         {
-            return Current >= Source.Length;
+            return _current >= _source.Length;
         }
 
         private char Advance()
         {
-            return Source[Current++];
+            return _source[_current++];
         }
 
         private void AddToken(TokenType type)
@@ -136,8 +138,8 @@ namespace SharpLox
 
         private void AddToken(TokenType type, object? literal)
         {
-            var text = Source.Substring(Start, Current - Start);
-            Tokens.Add(new Token(type, text, literal, Line));
+            var text = _source[_start.._current];
+            _tokens.Add(new Token(type, text, literal, _line));
         }
 
         private bool Match(char expected)
@@ -147,49 +149,39 @@ namespace SharpLox
                 return false;
             }
 
-            if (Source[Current] != expected)
+            if (_source[_current] != expected)
             {
                 return false;
             }
 
-            Current++;
+            _current++;
             return true;
         }
 
         private char Peek()
         {
-            if (IsAtEnd())
-            {
-                return '\0';
-            }
-
-            return Source[Current];
+            return IsAtEnd() ? '\0' : _source[_current];
         }
 
         private char PeekNext()
         {
-            if (Current + 1 >= Source.Length)
-            {
-                return '\0';
-            }
-
-            return Source[Current + 1];
+            return _current + 1 >= _source.Length ? '\0' : _source[_current + 1];
         }
 
 
-        private bool IsDigit(char c)
+        private static bool IsDigit(char c)
         {
-            return c >= '0' && c <= '9';
+            return c is >= '0' and <= '9';
         }
 
-        private bool IsAlpha(char c)
+        private static bool IsAlpha(char c)
         {
-            return (c >= 'a' && c <= 'z') ||
-                (c >= 'A' && c <= 'Z') ||
-                c == '_';
+            return c is (>= 'a' and <= 'z') or
+                (>= 'A' and <= 'Z') or
+                '_';
         }
 
-        private bool IsAlphaNumeric(char c)
+        private static bool IsAlphaNumeric(char c)
         {
             return IsAlpha(c) || IsDigit(c);
         }
@@ -198,23 +190,23 @@ namespace SharpLox
         {
             while (IsDigit(Peek()))
             {
-                Advance();
+                _ = Advance();
             }
 
             // Look for fractional part
             if (Peek() == '.' && IsDigit(PeekNext()))
             {
                 // Consume the "."
-                Advance();
+                _ = Advance();
 
                 while (IsDigit(Peek()))
                 {
-                    Advance();
+                    _ = Advance();
                 }
             }
 
-            var number = Source.Substring(Start, Current - Start);
-            AddToken(Number, Double.Parse(number));
+            var number = _source[_start.._current];
+            AddToken(LoxNumber, double.Parse(number));
         }
 
         private void HandleString()
@@ -223,37 +215,37 @@ namespace SharpLox
             {
                 if (Peek() == '\n')
                 {
-                    Line++;
+                    _line++;
                 }
-                Advance();
+                _ = Advance();
             }
 
             if (IsAtEnd())
             {
-                SharpLoxMain.Error(Line, "Unterminated String");
+                SharpLoxMain.Error(_line, "Unterminated String");
                 return;
             }
 
             // The closing "
-            Advance();
+            _ = Advance();
 
             // Trim the surrounding quotes
             // Could also escape values here
-            string value = Source.Substring(Start + 1, (Current - 1) - (Start + 1));
-            AddToken(String, value);
+            var value = _source[(_start + 1)..(_current - 1)];
+            AddToken(LoxString, value);
         }
 
         private void HandleIdentifier()
         {
             while (IsAlphaNumeric(Peek()))
             {
-                Advance();
+                _ = Advance();
             }
 
-            var text = Source.Substring(Start, Current - Start);
-            if (!Keywords.TryGetValue(text, out var type))
+            var text = _source[_start.._current];
+            if (!Keywords.TryGetValue(text, out TokenType type))
             {
-                type = Identifier;
+                type = LoxIdentifier;
             }
             AddToken(type);
         }

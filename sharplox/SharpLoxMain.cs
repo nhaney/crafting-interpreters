@@ -2,7 +2,7 @@ namespace SharpLox
 {
     public static class SharpLoxMain
     {
-        static bool HadError = false;
+        private static bool s_hadError;
 
         public static void Main(string[] args)
         {
@@ -25,9 +25,9 @@ namespace SharpLox
             var contents = File.ReadAllText(path);
             Run(contents);
 
-            if (HadError)
+            if (s_hadError)
             {
-                System.Environment.Exit(65);
+                Environment.Exit(65);
             }
         }
 
@@ -44,7 +44,7 @@ namespace SharpLox
                 }
 
                 Run(line);
-                HadError = false;
+                s_hadError = false;
             }
         }
 
@@ -52,9 +52,9 @@ namespace SharpLox
         {
             var scanner = new Scanner(source);
 
-            var tokens = scanner.ScanTokens();
+            List<Token> tokens = scanner.ScanTokens();
 
-            foreach (var token in tokens)
+            foreach (Token token in tokens)
             {
                 Console.WriteLine(token);
             }
@@ -68,7 +68,7 @@ namespace SharpLox
         private static void Report(int line, string where, string message)
         {
             Console.Error.WriteLine("[line " + line + "] Error" + where + ": " + message);
-            HadError = true;
+            s_hadError = true;
         }
     }
 }

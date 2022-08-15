@@ -2,22 +2,22 @@ namespace SharpLox
 {
     internal class Token
     {
-        readonly TokenType Type;
-        readonly string Lexeme;
-        readonly object? Literal;
-        readonly int Line;
+        private readonly TokenType _type;
+        private readonly string _lexeme;
+        private readonly object? _literal;
+        private readonly int _line;
 
         internal Token(TokenType type, string lexeme, object? literal, int line)
         {
-            this.Type = type;
-            this.Lexeme = lexeme;
-            this.Literal = literal;
-            this.Line = line;
+            _type = type;
+            _lexeme = lexeme;
+            _literal = literal;
+            _line = line;
         }
 
         public override string ToString()
         {
-            return Type + " " + Lexeme + " " + Literal;
+            return _type + " " + _lexeme + " " + _literal + " (line " + _line + ")";
         }
     }
 }

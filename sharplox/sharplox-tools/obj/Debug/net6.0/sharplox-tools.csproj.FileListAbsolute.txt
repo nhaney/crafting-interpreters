@@ -1,0 +1,15 @@
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/bin/Debug/net6.0/sharplox-tools
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/bin/Debug/net6.0/sharplox-tools.deps.json
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/bin/Debug/net6.0/sharplox-tools.runtimeconfig.json
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/bin/Debug/net6.0/sharplox-tools.dll
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/bin/Debug/net6.0/sharplox-tools.pdb
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.csproj.AssemblyReference.cache
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.GeneratedMSBuildEditorConfig.editorconfig
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.AssemblyInfoInputs.cache
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.AssemblyInfo.cs
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.csproj.CoreCompileInputs.cache
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.dll
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/refint/sharplox-tools.dll
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.pdb
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/sharplox-tools.genruntimeconfig.cache
+/home/nigel/crafting-interpreters/sharplox/sharplox-tools/obj/Debug/net6.0/ref/sharplox-tools.dll

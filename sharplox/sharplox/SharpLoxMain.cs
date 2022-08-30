@@ -6,18 +6,27 @@ namespace SharpLox
 
         public static void Main(string[] args)
         {
-            if (args.Length > 1)
-            {
-                Console.WriteLine("Usage: sharplox [script]");
-            }
-            else if (args.Length == 1)
-            {
-                RunFile(args[0]);
-            }
-            else
-            {
-                RunPrompt();
-            }
+            // if (args.Length > 1)
+            // {
+            //     Console.WriteLine("Usage: sharplox [script]");
+            // }
+            // else if (args.Length == 1)
+            // {
+            //     RunFile(args[0]);
+            // }
+            // else
+            // {
+            //     RunPrompt();
+            // }
+            Expr expression = new Expr.Binary(
+                new Expr.Unary(
+                    new Token(TokenType.Minus, "-", null, 1),
+                    new Expr.Literal(123)),
+                new Token(TokenType.Star, "*", null, 1),
+                new Expr.Grouping(
+                        new Expr.Literal(45.67)));
+
+            Console.WriteLine(new AstPrinter().Print(expression));
         }
 
         private static void RunFile(string path)

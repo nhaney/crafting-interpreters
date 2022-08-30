@@ -2,6 +2,14 @@ namespace SharpLox
 {
     internal abstract class Expr
     {
+        internal interface IVisitor<R>
+        {
+            R VisitBinaryExpr(Binary expr);
+            R VisitGroupingExpr(Grouping expr);
+            R VisitLiteralExpr(Literal expr);
+            R VisitUnaryExpr(Unary expr);
+        }
+
         internal class Binary : Expr
         {
             internal Expr Left;
@@ -14,6 +22,11 @@ namespace SharpLox
                 Oper = oper;
                 Right = right;
             }
+
+            internal override R Accept<R>(IVisitor<R> visitor)
+            {
+                return visitor.VisitBinaryExpr(this);
+            }
         }
 
         internal class Grouping : Expr
@@ -24,15 +37,25 @@ namespace SharpLox
             {
                 Expression = expression;
             }
+
+            internal override R Accept<R>(IVisitor<R> visitor)
+            {
+                return visitor.VisitGroupingExpr(this);
+            }
         }
 
         internal class Literal : Expr
         {
-            internal object Value;
+            internal object? Value;
 
-            internal Literal(object value)
+            internal Literal(object? value)
             {
                 Value = value;
+            }
+
+            internal override R Accept<R>(IVisitor<R> visitor)
+            {
+                return visitor.VisitLiteralExpr(this);
             }
         }
 
@@ -46,7 +69,13 @@ namespace SharpLox
                 Oper = oper;
                 Right = right;
             }
+
+            internal override R Accept<R>(IVisitor<R> visitor)
+            {
+                return visitor.VisitUnaryExpr(this);
+            }
         }
 
+        internal abstract R Accept<R>(IVisitor<R> visitor);
     }
 }

@@ -15,7 +15,7 @@
             DefineAst(outputDir, "Expr", new List<string> {
                 "Binary   : Expr left, Token oper, Expr right",
                 "Grouping : Expr expression",
-                "Literal  : object value",
+                "Literal  : object? value",
                 "Unary    : Token oper, Expr right"}
             );
         }
@@ -31,6 +31,9 @@
             writer.WriteLine("    internal abstract class " + baseName + "");
             writer.WriteLine("    {");
 
+            DefineVisitor(writer, baseName, types);
+            writer.WriteLine();
+
             foreach (var type in types)
             {
                 var className = type.Split(":")[0].Trim();
@@ -38,6 +41,8 @@
                 DefineType(writer, baseName, className, fields);
                 writer.WriteLine();
             }
+
+            writer.WriteLine("        internal abstract R Accept<R>(IVisitor<R> visitor);");
 
             writer.WriteLine("    }");
             writer.WriteLine("}");
@@ -56,7 +61,7 @@
                 var type = field.Split(" ")[0];
                 var name = field.Split(" ")[1];
 
-                writer.WriteLine("            internal " + type + " " + char.ToUpper(name[0]) + name[1..] + ";");
+                writer.WriteLine("            internal " + type + " " + Capitalize(name) + ";");
             }
 
             writer.WriteLine();
@@ -70,10 +75,37 @@
             foreach (var field in fields)
             {
                 var name = field.Split(" ")[1];
-                writer.WriteLine("                " + char.ToUpper(name[0]) + name[1..] + " = " + name + ";");
+                writer.WriteLine("                " + Capitalize(name) + " = " + name + ";");
             }
             writer.WriteLine("            }");
+
+            // Visitor pattern implementation
+            writer.WriteLine();
+            writer.WriteLine("            internal override R Accept<R>(IVisitor<R> visitor)");
+            writer.WriteLine("            {");
+            writer.WriteLine("                return visitor.Visit" + className + baseName + "(this);");
+            writer.WriteLine("            }");
             writer.WriteLine("        }");
+        }
+
+
+        private static void DefineVisitor(StreamWriter writer, string baseName, List<string> types)
+        {
+            writer.WriteLine("        internal interface IVisitor<R>");
+            writer.WriteLine("        {");
+
+            foreach (var type in types)
+            {
+                var typeName = type.Split(":")[0].Trim();
+
+                writer.WriteLine("            R Visit" + typeName + baseName + "(" + typeName + " " + baseName.ToLower() + ");");
+            }
+            writer.WriteLine("        }");
+        }
+
+        private static string Capitalize(string word)
+        {
+            return word == null ? throw new ArgumentNullException(word) : char.ToUpper(word[0]) + word[1..];
         }
     }
 }

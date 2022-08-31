@@ -16,7 +16,17 @@ namespace SharpLox
 
         public string VisitLiteralExpr(Expr.Literal expr)
         {
-            return expr.Value == null ? "nil" : expr.Value.ToString();
+            if (expr == null)
+            {
+                throw new ArgumentNullException(nameof(expr));
+            }
+
+            if (expr.Value == null)
+            {
+                return "nil";
+            }
+
+            return expr.Value.ToString();
         }
 
         public string VisitUnaryExpr(Expr.Unary expr)
@@ -33,15 +43,15 @@ namespace SharpLox
         {
             var sb = new StringBuilder(0);
 
-            sb.Append("(").Append(name);
+            _ = sb.Append('(').Append(name);
 
-            foreach (var expr in exprs)
+            foreach (Expr expr in exprs)
             {
-                sb.Append(" ");
-                sb.Append(expr.Accept(this));
+                _ = sb.Append(' ');
+                _ = sb.Append(expr.Accept(this));
             }
 
-            sb.Append(")");
+            _ = sb.Append(')');
 
             return sb.ToString();
         }

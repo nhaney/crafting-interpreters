@@ -27,6 +27,16 @@ namespace SharpLox
                         new Expr.Literal(45.67)));
 
             Console.WriteLine(new AstPrinter().Print(expression));
+
+            Expr rpnExpression = new Expr.Binary(
+                new Expr.Unary(
+                    new Token(TokenType.Minus, "-", null, 1),
+                    new Expr.Literal(123)),
+                new Token(TokenType.Star, "*", null, 1),
+                new Expr.Grouping(
+                    new Expr.Literal("str")));
+
+            Console.WriteLine(new RpnPrinter().Print(rpnExpression));
         }
 
         private static void RunFile(string path)

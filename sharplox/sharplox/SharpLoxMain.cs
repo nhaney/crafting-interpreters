@@ -6,27 +6,18 @@ namespace SharpLox
 
         public static void Main(string[] args)
         {
-            // if (args.Length > 1)
-            // {
-            //     Console.WriteLine("Usage: sharplox [script]");
-            // }
-            // else if (args.Length == 1)
-            // {
-            //     RunFile(args[0]);
-            // }
-            // else
-            // {
-            //     RunPrompt();
-            // }
-            Expr expression = new Expr.Binary(
-                new Expr.Unary(
-                    new Token(TokenType.Minus, "-", null, 1),
-                    new Expr.Literal(123)),
-                new Token(TokenType.Star, "*", null, 1),
-                new Expr.Grouping(
-                        new Expr.Literal(45.67)));
-
-            Console.WriteLine(new AstPrinter().Print(expression));
+            if (args.Length > 1)
+            {
+                Console.WriteLine("Usage: sharplox [script]");
+            }
+            else if (args.Length == 1)
+            {
+                RunFile(args[0]);
+            }
+            else
+            {
+                RunPrompt();
+            }
         }
 
         private static void RunFile(string path)
@@ -60,18 +51,35 @@ namespace SharpLox
         private static void Run(string source)
         {
             var scanner = new Scanner(source);
-
             List<Token> tokens = scanner.ScanTokens();
 
-            foreach (Token token in tokens)
+            var parser = new Parser(tokens);
+            Expr? expression = parser.Parse();
+
+            if (expression == null)
             {
-                Console.WriteLine(token);
+                Console.WriteLine("Parser did not produce a valid expression...");
+                return;
             }
+
+            Console.WriteLine(new AstPrinter().Print(expression));
         }
 
         internal static void Error(int line, string message)
         {
             Report(line, "", message);
+        }
+
+        internal static void Error(Token token, string message)
+        {
+            if (token.Type == TokenType.EOF)
+            {
+                Report(token.Line, " at end", message);
+            }
+            else
+            {
+                Report(token.Line, " at '" + token.Lexeme + "'", message);
+            }
         }
 
         private static void Report(int line, string where, string message)

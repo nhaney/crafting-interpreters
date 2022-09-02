@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/sharplox/sharplox.csproj",
+                "${workspaceFolder}/sharplox/sharplox/sharplox.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/sharplox/sharplox.csproj",
+                "${workspaceFolder}/sharplox/sharplox/sharplox.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/sharplox/sharplox.csproj"
+                "${workspaceFolder}/sharplox/sharplox/sharplox.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

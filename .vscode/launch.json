@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/sharplox/bin/Debug/net6.0/sharplox.dll",
+            "program": "${workspaceFolder}/sharplox/sharplox/bin/Debug/net6.0/sharplox.dll",
             "args": ["test.lox"],
-            "cwd": "${workspaceFolder}/sharplox",
+            "cwd": "${workspaceFolder}/sharplox/sharplox",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

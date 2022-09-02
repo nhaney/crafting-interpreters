@@ -8,6 +8,7 @@ namespace SharpLox
             R VisitGroupingExpr(Grouping expr);
             R VisitLiteralExpr(Literal expr);
             R VisitUnaryExpr(Unary expr);
+            R VisitConditionalExpr(Conditional expr);
         }
 
         internal class Binary : Expr
@@ -73,6 +74,25 @@ namespace SharpLox
             internal override R Accept<R>(IVisitor<R> visitor)
             {
                 return visitor.VisitUnaryExpr(this);
+            }
+        }
+
+        internal class Conditional : Expr
+        {
+            internal Expr Condition;
+            internal Expr IfExpr;
+            internal Expr ElseExpr;
+
+            internal Conditional(Expr condition, Expr ifExpr, Expr elseExpr)
+            {
+                Condition = condition;
+                IfExpr = ifExpr;
+                ElseExpr = elseExpr;
+            }
+
+            internal override R Accept<R>(IVisitor<R> visitor)
+            {
+                return visitor.VisitConditionalExpr(this);
             }
         }
 

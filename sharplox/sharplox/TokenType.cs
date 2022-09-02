@@ -24,6 +24,8 @@ namespace SharpLox
         GreaterEqual,
         Less,
         LessEqual,
+        QuestionMark,
+        Colon,
 
         // Literals
         LoxIdentifier,

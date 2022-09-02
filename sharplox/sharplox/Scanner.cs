@@ -63,6 +63,8 @@ namespace SharpLox
                 case '+': AddToken(Plus); break;
                 case ';': AddToken(Semicolon); break;
                 case '*': AddToken(Star); break;
+                case '?': AddToken(QuestionMark); break;
+                case ':': AddToken(Colon); break;
                 case '!':
                     AddToken(Match('=') ? BangEqual : Bang);
                     break;

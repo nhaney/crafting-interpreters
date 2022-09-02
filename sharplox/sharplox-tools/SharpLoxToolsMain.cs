@@ -16,7 +16,8 @@
                 "Binary   : Expr left, Token oper, Expr right",
                 "Grouping : Expr expression",
                 "Literal  : object? value",
-                "Unary    : Token oper, Expr right"}
+                "Unary    : Token oper, Expr right",
+                "Conditional  : Expr condition, Expr ifExpr, Expr elseExpr"}
             );
         }
 

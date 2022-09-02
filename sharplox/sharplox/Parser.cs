@@ -35,13 +35,31 @@ namespace SharpLox
 
         private Expr CommaOperator()
         {
-            Expr expr = Equality();
+            Expr expr = Conditional();
 
             while (Match(Comma))
             {
                 Token oper = Previous();
-                Expr right = Equality();
+                Expr right = Conditional();
                 expr = new Expr.Binary(expr, oper, right);
+            }
+
+            return expr;
+        }
+
+        private Expr Conditional()
+        {
+            Expr expr = Equality();
+
+            if (Match(QuestionMark))
+            {
+                Expr ifExpr = Expression();
+
+                _ = Consume(Colon, "expect : after ? in ternary expression");
+
+                Expr elseExpr = Conditional();
+
+                expr = new Expr.Conditional(expr, ifExpr, elseExpr);
             }
 
             return expr;

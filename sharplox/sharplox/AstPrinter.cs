@@ -34,6 +34,11 @@ namespace SharpLox
             return Parenthesize(expr.Oper.Lexeme, expr.Right);
         }
 
+        public string VisitConditionalExpr(Expr.Conditional expr)
+        {
+            return Parenthesize(":?", expr.Condition, expr.IfExpr, expr.ElseExpr);
+        }
+
         internal string Print(Expr expr)
         {
             return expr.Accept(this);

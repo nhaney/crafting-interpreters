@@ -9,7 +9,7 @@ namespace SharpLox
     internal class Parser
     {
         private readonly List<Token> _tokens;
-        private int _current = 0;
+        private int _current;
 
         internal Parser(List<Token> tokens)
         {
@@ -30,7 +30,21 @@ namespace SharpLox
 
         private Expr Expression()
         {
-            return Equality();
+            return CommaOperator();
+        }
+
+        private Expr CommaOperator()
+        {
+            Expr expr = Equality();
+
+            while (Match(Comma))
+            {
+                Token oper = Previous();
+                Expr right = Equality();
+                expr = new Expr.Binary(expr, oper, right);
+            }
+
+            return expr;
         }
 
         private Expr Equality()

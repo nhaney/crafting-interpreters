@@ -170,6 +170,34 @@ namespace SharpLox
                 return new Expr.Grouping(expr);
             }
 
+            // Error productions.
+            if (Match(BangEqual, EqualEqual))
+            {
+                _ = Error(Previous(), "Missing left-hand operand.");
+                _ = Equality();
+                return null;
+            }
+
+            if (Match(Greater, GreaterEqual, Less, LessEqual))
+            {
+                _ = Error(Previous(), "Missing left-hand operand.");
+                _ = Comparison();
+                return null;
+            }
+
+            if (Match(Plus))
+            {
+                _ = Error(Previous(), "Missing left-hand operand.");
+                _ = Term();
+                return null;
+            }
+
+            if (Match(Slash, Star))
+            {
+                _ = Error(Previous(), "Missing left-hand operand.");
+                _ = Factor();
+            }
+
             throw Error(Peek(), "Expect expression.");
         }
 

@@ -2,7 +2,7 @@ using System.Text;
 
 namespace SharpLox
 {
-    internal class AstPrinter : Expr.IVisitor<String>
+    internal class AstPrinter : Expr.IVisitor<string>
     {
         public string VisitBinaryExpr(Expr.Binary expr)
         {

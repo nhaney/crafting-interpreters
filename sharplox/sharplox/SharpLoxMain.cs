@@ -53,6 +53,15 @@ namespace SharpLox
             var scanner = new Scanner(source);
             List<Token> tokens = scanner.ScanTokens();
 
+            Console.WriteLine("Tokens: ");
+            Console.WriteLine("*********************************************************");
+            foreach (Token token in tokens)
+            {
+                Console.Write($"'{token}', ");
+            }
+            Console.Write("\n");
+            Console.WriteLine("*********************************************************");
+
             var parser = new Parser(tokens);
             Expr? expression = parser.Parse();
 
@@ -61,8 +70,9 @@ namespace SharpLox
                 Console.WriteLine("Parser did not produce a valid expression...");
                 return;
             }
-
+            Console.WriteLine("AST: ");
             Console.WriteLine(new AstPrinter().Print(expression));
+            Console.WriteLine("*********************************************************");
         }
 
         internal static void Error(int line, string message)

@@ -75,9 +75,9 @@ namespace SharpLox
                         return (double)left + (double)right;
                     }
 
-                    if (left.GetType() == typeof(string) && right.GetType() == typeof(string))
+                    if (left.GetType() == typeof(string) || right.GetType() == typeof(string))
                     {
-                        return (string)left + (string)right;
+                        return Stringify(left) + Stringify(right);
                     }
 
                     throw new RuntimeError(expr.Oper, "Operands must be two numbers or two strings.");

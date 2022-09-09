@@ -83,6 +83,10 @@ namespace SharpLox
                     throw new RuntimeError(expr.Oper, "Operands must be two numbers or two strings.");
                 case Slash:
                     CheckNumberOperands(expr.Oper, left, right);
+                    if ((double)right == 0.0)
+                    {
+                        throw new RuntimeError(expr.Oper, "Divide by zero error.");
+                    }
                     return (double)left / (double)right;
                 case Star:
                     CheckNumberOperands(expr.Oper, left, right);

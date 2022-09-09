@@ -2,7 +2,10 @@ namespace SharpLox
 {
     public static class SharpLoxMain
     {
+        private static readonly Interpreter Interpreter = new();
+
         private static bool s_hadError;
+        private static bool s_hadRuntimeError;
 
         public static void Main(string[] args)
         {
@@ -28,6 +31,11 @@ namespace SharpLox
             if (s_hadError)
             {
                 Environment.Exit(65);
+            }
+
+            if (s_hadRuntimeError)
+            {
+                Environment.Exit(70);
             }
         }
 
@@ -62,7 +70,7 @@ namespace SharpLox
                 return;
             }
 
-            Console.WriteLine(new AstPrinter().Print(expression));
+            Interpreter.Interpret(expression);
         }
 
         internal static void Error(int line, string message)
@@ -80,6 +88,12 @@ namespace SharpLox
             {
                 Report(token.Line, " at '" + token.Lexeme + "'", message);
             }
+        }
+
+        internal static void RuntimeError(RuntimeError error)
+        {
+            Console.Error.WriteLine(error.Message + "\n[line " + error.Token.Line + "]");
+            s_hadRuntimeError = true;
         }
 
         private static void Report(int line, string where, string message)
